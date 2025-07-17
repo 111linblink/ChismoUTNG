@@ -1,1 +1,53 @@
-<p>view works!</p>
+<div class="container">
+  <!-- Burbujas de fondo -->
+  <div class="bubbles">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <button class="back-btn" (click)="goBack()">← Volver</button>
+    <h1 class="category-title">{{ categoryIcon }} {{ currentCategory }}</h1>
+    <p class="category-subtitle">Chismes de la categoría seleccionada</p>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <div class="people-grid">
+      <div
+        class="person-card"
+        *ngFor="let person of people; let i = index"
+        [style.animationDelay]="i * 0.1 + 's'"
+        (click)="openModal(person)"
+      >
+        <div class="person-avatar">{{ person.initials }}</div>
+        <h3 class="person-name">{{ person.name }}</h3>
+        <p class="person-preview">{{ person.preview }}</p>
+        <span class="gossip-count">{{ getAnswerCount(person) }} respuestas</span>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal" [class.active]="modalVisible" (click)="onModalClick($event)">
+  <div class="modal-content">
+    <button class="modal-close" (click)="closeModal()">×</button>
+    <div class="modal-header" *ngIf="selectedPerson">
+      <div class="modal-avatar">{{ selectedPerson.initials }}</div>
+      <h2 class="modal-name">{{ selectedPerson.name }}</h2>
+      <p class="modal-date">{{ selectedPerson.date }}</p>
+    </div>
+    <div class="questions-container">
+      <div class="question-item" *ngFor="let q of questionPairs">
+        <div class="question-number">Pregunta {{ q.index }}</div>
+        <div class="question-text">{{ q.question }}</div>
+        <div class="answer-text">{{ q.answer }}</div>
+      </div>
+    </div>
+  </div>
+</div>

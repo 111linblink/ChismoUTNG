@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChismoUTNG - La App del Chisme</title>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Burbujas de fondo -->
+        <div class="bubbles">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <div class="hero-text fade-in">
+                <h2 class="hero-title">¡Categorías!</h2>
+                <p class="hero-description">
+                    Selecciona una Categoría.
+                </p>
+            </div>
+
+
+            <div class="features">
+                <div class="feature-card glass slide-in" (click)="goToView('Amor')">
+                    <div class="feature-icon">❤️</div>
+                    <h3 class="feature-title">Amor</h3>
+                    <p class="feature-description">Los chismes más frescos y picantes de tu área.</p>
+                </div>
+
+                <div class="feature-card glass slide-in" (click)="goToView('Terror')">
+                    <div class="feature-icon">💀</div>
+                    <h3 class="feature-title">Terror</h3>
+                    <p class="feature-description">Descubre qué está pasando en tu colonia, escuela o trabajo.</p>
+                </div>
+
+                <div class="feature-card glass slide-in" (click)="goToView('verguenza')">
+                    <div class="feature-icon">🫥</div>
+                    <h3 class="feature-title">Verguenza</h3>
+                    <p class="feature-description">Chismea con total privacidad. Tu identidad está completamente
+                        protegida.</p>
+                </div>
+
+                <div class="feature-card glass slide-in" (click)="goToView('gustos personales')">
+                    <div class="feature-icon">🌟</div>
+                    <h3 class="feature-title">Gustos Personales</h3>
+                    <p class="feature-description">Comparte y lee chismes al instante. ¡La velocidad del chisme!</p>
+                </div>
+
+                <div class="feature-card glass slide-in" (click)="goToView('random')">
+                    <div class="feature-icon">❔</div>
+                    <h3 class="feature-title">Random</h3>
+                    <p class="feature-description">Comparte y lee chismes al instante. ¡La velocidad del chisme!</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2024 Chismógrafo. Todos los derechos reservados. | Hecho con 💜 en la UTNG</p>
+        </footer>
+    </div>
+
+
+</body>
+
+</html>

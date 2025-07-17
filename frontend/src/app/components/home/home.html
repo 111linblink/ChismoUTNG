@@ -1,1 +1,136 @@
-<p>home works!</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChismoUTNG - La App del Chisme</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Burbujas de fondo -->
+        <div class="bubbles">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+
+        <!-- Header -->
+        <header>
+            <h1 class="logo">ChismoUTNG</h1>
+            <p class="subtitle">La red social del chisme más divertida</p>
+        </header>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <div class="hero-text fade-in">
+                <h2 class="hero-title">¡Descubre los chismes más jugosos!</h2>
+                <p class="hero-description">
+                    Únete a la comunidad de chismosos dentro de la UTNG. Comparte, descubre y disfruta de los chismes más divertidos de tu universidad.
+                </p>
+            </div>
+
+            <div class="buttons-container">
+                <a class="btn btn-primary"  href="/form">Empezar a Chismear</a>
+            </div>
+            
+                    <!-- Contenido principal -->
+            <div class="hero-text fade-in">
+                <h2 class="hero-title">¡Categorías!</h2>
+                <p class="hero-description">
+                  Selecciona una Categoría.
+                </p>
+            </div>
+
+
+            <div class="features">
+                <div class="feature-card glass slide-in">
+                    <div class="feature-icon">❤️</div>
+                    <h3 class="feature-title">Amor</h3>
+                    <p class="feature-description">Los chismes más frescos y picantes de tu área, actualizados en tiempo real.</p>
+                </div>
+
+                <div class="feature-card glass slide-in">
+                    <div class="feature-icon">💀</div>
+                    <h3 class="feature-title">Terror</h3>
+                    <p class="feature-description">Descubre qué está pasando en tu colonia, escuela o trabajo.</p>
+                </div>
+
+                <div class="feature-card glass slide-in">
+                    <div class="feature-icon">🫥</div>
+                    <h3 class="feature-title">Verguenza</h3>
+                    <p class="feature-description">Chismea con total privacidad. Tu identidad está completamente protegida.</p>
+                </div>
+
+                <div class="feature-card glass slide-in">
+                    <div class="feature-icon">🌟</div>
+                    <h3 class="feature-title">Gustos Personales</h3>
+                    <p class="feature-description">Comparte y lee chismes al instante. ¡La velocidad del chisme!</p>
+                </div>
+
+                <div class="feature-card glass slide-in">
+                    <div class="feature-icon">❔</div>
+                    <h3 class="feature-title">Random</h3>
+                    <p class="feature-description">Comparte y lee chismes al instante. ¡La velocidad del chisme!</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2024 Chismógrafo. Todos los derechos reservados. | Hecho con 💜 en la UTNG</p>
+        </footer>
+    </div>
+
+    <script>
+        // Animaciones al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.feature-card');
+            
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+
+            // Efecto de hover en botones
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.05)';
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Efecto de click en las cards
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-5px) scale(1)';
+                    }, 150);
+                });
+            });
+        });
+
+        // Animación de las burbujas
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            bubble.style.width = bubble.style.height = Math.random() * 60 + 40 + 'px';
+            document.querySelector('.bubbles').appendChild(bubble);
+            
+            setTimeout(() => {
+                bubble.remove();
+            }, 6000);
+        }
+
+        // Crear burbujas cada 2 segundos
+        setInterval(createBubble, 2000);
+    </script>
+</body>
+</html>

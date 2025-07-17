@@ -1,1 +1,191 @@
-<p>form works!</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chismógrafo - Comparte tu Chisme</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Partículas de fondo -->
+        <div class="particles" id="particles"></div>
+
+        <!-- Header -->
+        <div class="header">
+            <h1 class="logo">🗣️ ChismoUTNG</h1>
+            <p class="subtitle">Comparte los chismes más jugosos</p>
+            <div class="warning">
+                ⚠️ <strong>Recuerda:</strong> No olvides escribir tu nombre y recuerda no ofendas a nadie de manera pasivo agresiva.
+            </div>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar" style="width: 12.5%"></div>
+            <div class="progress-text">
+                <span id="currentQuestion">1</span> de <span id="totalQuestions">8</span>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="form-container">
+            <!-- Pregunta 1 -->
+            <div class="question-card active" data-question="1">
+                <div class="question-number">Pregunta 1</div>
+                <div class="question-text">
+                    <span class="emoji-icon">🏠</span>
+                    ¿Cuál es el chisme más loco que has escuchado en tu colonia o barrio?
+                </div>
+                <div class="question-hint">
+                    Cuéntanos sobre esos vecinos dramáticos, situaciones raras o cosas que han pasado cerca de tu casa...
+                </div>
+                <textarea class="text-input" placeholder="Escribe aquí tu chisme... Por ejemplo: 'Resulta que mi vecino de la casa azul siempre recibe paquetes raros a las 3 AM...'"></textarea>
+                <div class="char-counter">
+                    <span id="charCount1">0</span> / 500 caracteres
+                </div>
+            </div>
+
+            <!-- Pregunta 2 -->
+            <div class="question-card" data-question="2">
+                <div class="question-number">Pregunta 2</div>
+                <div class="question-text">
+                    <span class="emoji-icon">🎓</span>
+                    ¿Qué chisme de la escuela/universidad/trabajo nunca podrás olvidar?
+                </div>
+                <div class="question-hint">
+                    Esos dramas épicos, relaciones secretas, escándalos o situaciones que marcaron una época...
+                </div>
+                <textarea class="text-input" placeholder="Comparte ese chisme épico... Por ejemplo: 'En mi universidad había una profesora que tenía una relación secreta con...'"></textarea>
+                <div class="char-counter">
+                    <span id="charCount2">0</span> / 500 caracteres
+                </div>
+            </div>
+
+            <!-- Pregunta 3 -->
+            <div class="question-card" data-question="3">
+                <div class="question-number">Pregunta 3</div>
+                <div class="question-text">
+                    <span class="emoji-icon">👥</span>
+                    ¿Cuál es el chisme más jugoso que sabes sobre algún famoso o influencer?
+                </div>
+                <div class="question-hint">
+                    Esos rumores, teorías conspiracionales, o historias que has escuchado sobre celebridades...
+                </div>
+                <textarea class="text-input" placeholder="Cuéntanos sobre algún famoso... Por ejemplo: 'Dicen que ese cantante famoso en realidad...'"></textarea>
+                <div class="char-counter">
+                    <span id="charCount3">0</span> / 500 caracteres
+                </div>
+            </div>
+
+            <!-- Pregunta 4 -->
+            <div class="question-card" data-question="4">
+                <div class="question-number">Pregunta 4</div>
+                <div class="question-text">
+                    <span class="emoji-icon">💍</span>
+                    ¿Conoces algún chisme picante sobre bodas, relaciones o rupturas?
+                </div>
+                <div class="question-hint">
+                    Esas bodas donde pasó algo inesperado, infidelidades, relaciones tóxicas o rupturas dramáticas...
+                </div>
+                <textarea class="text-input" placeholder="Comparte ese drama amoroso... Por ejemplo: 'En una boda a la que fui, el novio recibió un mensaje justo antes de...'"></textarea>
+                <div class="char-counter">
+                    <span id="charCount4">0</span> / 500 caracteres
+                </div>
+            </div>
+
+            <!-- Pregunta 5 -->
+            <div class="question-card" data-question="5">
+                <div class="question-number">Pregunta 5</div>
+                <div class="question-text">
+                    <span class="emoji-icon">🏢</span>
+                    ¿Cuál es el chisme más loco del mundo laboral que conoces?
+                </div>
+                <div class="question-hint">
+                    Jefes con doble vida, oficinistas con secretos, despidos misteriosos o situaciones raras en el trabajo...
+                </div>
+                <textarea class="text-input" placeholder="Cuéntanos del mundo laboral... Por ejemplo: 'En mi empresa anterior, el jefe tenía una segunda oficina secreta donde...'"></textarea>
+                <div class="char-counter">
+                    <span id="charCount5">0</span> / 500 caracteres
+                </div>
+            </div>
+
+            <!-- Pregunta 6 -->
+            <div class="question-card" data-question="6">
+                <div class="question-number">Pregunta 6</div>
+                <div class="question-text">
+                    <span class="emoji-icon">🎉</span>
+                    ¿Qué ha sido lo más escandaloso que has visto o escuchado en una fiesta?
+                </div>
+                <div class="question-hint">
+                    Esos momentos épicos, peleas, confesiones bajo los efectos del alcohol, o situaciones que quedaron para la historia...
+                </div>
+                <textarea class="text-input" placeholder="Comparte ese momento de fiesta... Por ejemplo: 'En una fiesta de cumpleaños, alguien llegó borracho y confesó que...'"></textarea>
+                <div class="char-counter">
+                    <span id="charCount6">0</span> / 500 caracteres
+                </div>
+            </div>
+
+            <!-- Pregunta 7 -->
+            <div class="question-card" data-question="7">
+                <div class="question-number">Pregunta 7</div>
+                <div class="question-text">
+                    <span class="emoji-icon">🕵️</span>
+                    ¿Cuál es el secreto más impactante que alguien te ha contado?
+                </div>
+                <div class="question-hint">
+                    Esas confesiones que te dejaron sin palabras, secretos familiares, o revelaciones que cambiaron tu perspectiva...
+                </div>
+                <textarea class="text-input" placeholder="Comparte ese secreto impactante... Por ejemplo: 'Una persona muy cercana me confesó que durante años había estado...'"></textarea>
+                <div class="char-counter">
+                    <span id="charCount7">0</span> / 500 caracteres
+                </div>
+            </div>
+
+            <!-- Pregunta 8 -->
+            <div class="question-card" data-question="8">
+                <div class="question-number">Pregunta 8</div>
+                <div class="question-text">
+                    <span class="emoji-icon">🔥</span>
+                    Para terminar... ¿Cuál es TU chisme personal más jugoso que estés dispuesto/a a compartir?
+                </div>
+                <div class="question-hint">
+                    Algo que te haya pasado a ti, una situación loca en la que te viste envuelto/a, o tu propia anécdota escandalosa...
+                </div>
+                <textarea class="text-input" placeholder="Comparte tu propia historia... Por ejemplo: 'Una vez me metí en una situación súper rara cuando...'"></textarea>
+                <div class="char-counter">
+                    <span id="charCount8">0</span> / 500 caracteres
+                </div>
+            </div>
+
+            <!-- Botones de navegación -->
+            <div class="buttons-container">
+                <button class="btn btn-previous" id="prevBtn" (click)="previousQuestion()">
+                    ← Anterior
+                </button>
+                <button class="btn btn-next" id="nextBtn" (click)="nextQuestion()">
+                    Siguiente →
+                </button>
+            </div>
+        </div>
+
+        <!-- Resultado -->
+        <div class="result-container" id="resultContainer">
+            <div class="result-emoji">🎉</div>
+            <div class="result-title">¡Gracias por compartir!</div>
+            <div class="result-text">
+                Tus chismes han sido enviados de forma anónima a nuestra comunidad. ¡Ahora otros usuarios podrán disfrutar de estas historias jugosas!
+                <br><br>
+                <strong>¡Eres oficialmente parte de la comunidad chismosa más grande!</strong>
+            </div>
+            <div class="result-actions">
+                <a class="btn btn-previous" (click)="viewGossips()">
+                    👀 Ver Chismes
+                </a>
+                <button class="btn btn-previous" (click)="otherRes()">
+                    🔄 Compartir Más
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
