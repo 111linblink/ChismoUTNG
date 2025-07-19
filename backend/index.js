@@ -8,6 +8,8 @@ conectarDB();
 
 //Rutas
 app.use('/api/answers', require('./routes/answers'));
+app.use('/api/questions', require('./routes/categories'));
+app.use('/api/categories', require('./routes/questions'));
 
 app.use(express.json());
 app.listen(3000, () => {
