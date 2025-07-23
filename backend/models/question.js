@@ -5,10 +5,12 @@ const QuestionSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+
   text: {
     type: String,
     required: true
   },
+
   category_id: {
     type: Number,
     ref: 'Category',
@@ -18,6 +20,12 @@ const QuestionSchema = new mongoose.Schema({
      type: Date,
      default: Date.now
    },
+
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true
+  }
 });
 
 module.exports = mongoose.model('Question', QuestionSchema);
