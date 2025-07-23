@@ -28,7 +28,6 @@ export class Form implements OnInit {
     this.fetchQuestions();
     this.createParticles();
     this.updateUI();
-    this.setupEventListeners();
   }
   
 
@@ -89,35 +88,11 @@ export class Form implements OnInit {
 
   // Configurar event listeners
   setupEventListeners(): void {
-    for (let i = 1; i <= this.totalQuestions; i++) {
-      const textarea = document.querySelector(`[data-question="${i}"] .text-input`) as HTMLTextAreaElement;
-      const counter = document.getElementById(`charCount${i}`);
-      
-      if (textarea && counter) {
-        textarea.addEventListener('input', (event) => {
-          const target = event.target as HTMLTextAreaElement;
-          const length = target.value.length;
-          counter.textContent = length.toString();
-          
-          // Cambiar color si se acerca al límite
-          if (length > 450) {
-            counter.parentElement?.classList.add('warning');
-          } else {
-            counter.parentElement?.classList.remove('warning');
-          }
-          
-          // Guardar respuesta
-          this.answers[i] = target.value;
-          
-          // Habilitar/deshabilitar botón siguiente
-          const nextBtn = document.getElementById('nextBtn') as HTMLButtonElement;
-          if (nextBtn) {
-            nextBtn.disabled = length === 0;
-          }
-        });
-      }
-    }
   }
+  onAnswerChange(): void {
+  this.updateUI();
+}
+
 
   updateUI(): void {
   // Actualizar barra de progreso

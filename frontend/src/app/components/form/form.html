@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chismógrafo - Comparte tu Chisme</title>
 </head>
+
 <body>
     <div class="container">
         <!-- Partículas de fondo -->
@@ -30,9 +32,11 @@
         <!-- Formulario -->
         <div class="form-container">
             <!-- Pregunta 1 -->
-            <input type="text" placeholder="Tu nombre" [(ngModel)]="user_name">
-            <input type="text" placeholder="Tu grupo" [(ngModel)]="user_group">
-            <div *ngFor="let question of questions; let i = index" [attr.data-question]="i + 1" class="question-card" [class.active]="currentQuestion === (i + 1)">
+            <input type="text" placeholder="Tu nombre" [(ngModel)]="user_name" class="input-style">
+            <input type="text" placeholder="Tu grupo" [(ngModel)]="user_group" class="input-style">
+
+            <div *ngFor="let question of questions; let i = index" [attr.data-question]="i + 1" class="question-card"
+                [class.active]="currentQuestion === (i + 1)">
                 <div class="question-number">Pregunta {{ i + 1 }}</div>
                 <div class="question-text">
                     <span class="emoji-icon">🗣️</span>
@@ -41,7 +45,8 @@
                 <div class="question-hint">
                     Comparte tu chisme, sin filtros ni censura...
                 </div>
-                <textarea class="text-input" [(ngModel)]="answers[i + 1]" placeholder="Escribe aquí tu chisme..."></textarea>
+                <textarea class="text-input" [(ngModel)]="answers[i + 1]" placeholder="Escribe aquí tu chisme..."
+                    (input)="onAnswerChange()"></textarea>
                 <div class="char-counter">
                     <span id="charCount1">0</span> / 500 caracteres
                 </div>
@@ -63,7 +68,8 @@
             <div class="result-emoji">🎉</div>
             <div class="result-title">¡Gracias por compartir!</div>
             <div class="result-text">
-                Tus chismes han sido enviados de forma anónima a nuestra comunidad. ¡Ahora otros usuarios podrán disfrutar de estas historias jugosas!
+                Tus chismes han sido enviados de forma anónima a nuestra comunidad. ¡Ahora otros usuarios podrán
+                disfrutar de estas historias jugosas!
                 <br><br>
                 <strong>¡Eres oficialmente parte de la comunidad chismosa más grande!</strong>
             </div>
@@ -78,4 +84,5 @@
         </div>
     </div>
 </body>
+
 </html>
