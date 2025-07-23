@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AnswersService } from '../../services/answers.service';
 import { QuestionsService } from '../../services/questions.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-view-view',
   templateUrl: './view.html',
   styleUrls: ['./view.css'],
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   encapsulation: ViewEncapsulation.None,
 })
 export class View implements OnInit {
@@ -50,7 +51,7 @@ export class View implements OnInit {
 }
 
 
-  constructor(private route: ActivatedRoute, private answersService: AnswersService, private questionsService : QuestionsService) { }
+  constructor(private route: ActivatedRoute, private answersService: AnswersService, private questionsService : QuestionsService, private router: Router) { }
 
   ngOnInit(): void {
   const categoryParam = this.route.snapshot.queryParamMap.get('category');
@@ -150,7 +151,7 @@ getInitials(user_name: string | undefined | null): string {
   }
 
   goBack(): void {
-    history.back();
+    this.router.navigate(['']); 
   }
 
   @HostListener('document:keydown', ['$event'])

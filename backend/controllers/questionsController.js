@@ -14,7 +14,6 @@ exports.createQuestion = async (req, res) => {
 exports.getQuestions = async (req, res) => {
   try {
     const questions = await Question.find();
-    const questions = await Question.find().populate('category', 'name');
     res.json(questions);
   } catch (error) {
     console.error(`Error al obtener preguntas: ${error.message}`);
