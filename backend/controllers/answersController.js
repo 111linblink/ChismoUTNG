@@ -91,7 +91,7 @@ exports.deleteAnswer = async (req, res) => {
         return res.status(400).json({ msg: 'Debe enviar el ID de la categoría' });
       }
 
-const allAnswers = await Answer.find({ question_id: { $gte: 3 + (categoryId - 1) * 10, $lte: 12 + (categoryId - 1) * 10 }});
+    const allAnswers = await Answer.find({ question_id: { $gte: (categoryId - 1) * 10 + 1, $lte: categoryId * 10 }});
 
       const grouped = {};
 
