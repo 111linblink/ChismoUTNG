@@ -1,27 +1,75 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { QuestionsService } from '../../services/questions.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-form',
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './form.html',
   styleUrl: './form.css'
 })
 export class Form implements OnInit {
   currentQuestion: number = 1;
-  totalQuestions: number = 8;
+  totalQuestions: number = 50;
   answers: { [key: number]: string } = {};
+  questions: any[] = [];
+  user_name: string = '';
+  user_group: string = '';
 
-  constructor(private router: Router) {
+
+  constructor(private router: Router, private questionsService: QuestionsService) {
     
   }
 
   ngOnInit(): void {
+    this.fetchQuestions();
     this.createParticles();
     this.updateUI();
     this.setupEventListeners();
   }
+  
+
+  fetchQuestions(): void {
+    this.questionsService.getQuestions().subscribe({
+      next: (data) => {
+        console.log('Preguntas desde el backend:', data);
+        this.questions = data;
+        // Aquí puedes asignarlas dinámicamente si estás generando el HTML desde Angular
+      },
+      error: (err) => {
+        console.error('Error al obtener preguntas:', err);
+      }
+    });
+  }
+
+  sendAnswers(): void {
+  if (!this.user_name || !this.user_group) {
+    alert('Por favor ingresa tu nombre y grupo antes de enviar.');
+    return;
+  }
+
+  const answersToSend = this.questions.map((question, index) => ({
+    question_id: question._id,
+    answer: this.answers[index + 1],
+    user_name: this.user_name,
+    user_group: this.user_group
+  }));
+
+  console.log('Enviando respuestas:', answersToSend);
+
+  this.questionsService.sendAnswers(answersToSend).subscribe({
+    next: () => {
+      console.log('Respuestas enviadas correctamente');
+    },
+    error: (err) => {
+      console.error('Error al enviar respuestas:', err);
+    }
+  });
+}
+
 
   // Crear partículas de fondo
   createParticles(): void {
@@ -72,48 +120,55 @@ export class Form implements OnInit {
   }
 
   updateUI(): void {
-    // Actualizar barra de progreso
-    const progress = (this.currentQuestion / this.totalQuestions) * 100;
-    const progressBar = document.getElementById('progressBar') as HTMLElement;
-    if (progressBar) {
-      progressBar.style.width = progress + '%';
-    }
-    
-    const currentQuestionElement = document.getElementById('currentQuestion');
-    if (currentQuestionElement) {
-      currentQuestionElement.textContent = this.currentQuestion.toString();
-    }
-    
-    // Mostrar pregunta actual
-    document.querySelectorAll('.question-card').forEach(card => {
-      card.classList.remove('active');
-    });
-    
-    const currentCard = document.querySelector(`[data-question="${this.currentQuestion}"]`);
-    if (currentCard) {
-      currentCard.classList.add('active');
-    }
-    
-    // Actualizar botones
-    const prevBtn = document.getElementById('prevBtn') as HTMLButtonElement;
-    if (prevBtn) {
-      prevBtn.disabled = this.currentQuestion === 1;
-      prevBtn.style.display = this.currentQuestion === 1 ? 'none' : 'block';
-    }
-    
-    const nextBtn = document.getElementById('nextBtn') as HTMLButtonElement;
-    if (nextBtn) {
-      if (this.currentQuestion === this.totalQuestions) {
+  // Actualizar barra de progreso
+  const progress = (this.currentQuestion / this.totalQuestions) * 100;
+  const progressBar = document.getElementById('progressBar') as HTMLElement;
+  if (progressBar) {
+    progressBar.style.width = progress + '%';
+  }
+
+  const currentQuestionElement = document.getElementById('currentQuestion');
+  if (currentQuestionElement) {
+    currentQuestionElement.textContent = this.currentQuestion.toString();
+  }
+
+  // Mostrar solo la pregunta actual
+  document.querySelectorAll('.question-card').forEach(card => {
+    card.classList.remove('active');
+  });
+
+  const currentCard = document.querySelector(`[data-question="${this.currentQuestion}"]`);
+  if (currentCard) {
+    currentCard.classList.add('active');
+  }
+
+  // Actualizar botones
+  const prevBtn = document.getElementById('prevBtn') as HTMLButtonElement;
+  if (prevBtn) {
+    prevBtn.disabled = this.currentQuestion === 1;
+    prevBtn.style.display = this.currentQuestion === 1 ? 'none' : 'block';
+  }
+
+  const nextBtn = document.getElementById('nextBtn') as HTMLButtonElement;
+  if (nextBtn) {
+    const currentAnswer = this.answers[this.currentQuestion];
+    const allAnswered = Object.keys(this.answers).length === this.totalQuestions &&
+      Object.values(this.answers).every(ans => ans && ans.trim().length > 0);
+
+    if (this.currentQuestion === this.totalQuestions) {
+      if (allAnswered) {
         nextBtn.textContent = 'Enviar Chismes 🚀';
+        nextBtn.disabled = false;
       } else {
-        nextBtn.textContent = 'Siguiente →';
+        nextBtn.textContent = 'Responde todas antes de enviar';
+        nextBtn.disabled = true;
       }
-      
-      // Verificar si ya hay respuesta
-      const currentAnswer = this.answers[this.currentQuestion];
+    } else {
+      nextBtn.textContent = 'Siguiente →';
       nextBtn.disabled = !currentAnswer || currentAnswer.trim().length === 0;
     }
   }
+}
 
   nextQuestion(): void {
     if (this.currentQuestion < this.totalQuestions) {
@@ -132,25 +187,26 @@ export class Form implements OnInit {
   }
 
   showResult(): void {
-    // Ocultar formulario y mostrar resultado
-    const formContainer = document.querySelector('.form-container') as HTMLElement;
-    if (formContainer) {
-      formContainer.style.display = 'none';
-    }
-    
-    const progressContainer = document.querySelector('.progress-container') as HTMLElement;
-    if (progressContainer) {
-      progressContainer.style.display = 'none';
-    }
-    
-    const resultContainer = document.getElementById('resultContainer');
-    if (resultContainer) {
-      resultContainer.classList.add('active');
-    }
-    
-    // Simular envío de datos
-    console.log('Chismes enviados:', this.answers);
+  // Ocultar formulario y mostrar resultado
+  const formContainer = document.querySelector('.form-container') as HTMLElement;
+  if (formContainer) {
+    formContainer.style.display = 'none';
   }
+
+  const progressContainer = document.querySelector('.progress-container') as HTMLElement;
+  if (progressContainer) {
+    progressContainer.style.display = 'none';
+  }
+
+  const resultContainer = document.getElementById('resultContainer');
+  if (resultContainer) {
+    resultContainer.classList.add('active');
+  }
+
+  // Enviar las respuestas al backend
+  this.sendAnswers();
+}
+
 
   shareResult(): void {
     if (navigator.share) {

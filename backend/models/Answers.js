@@ -17,10 +17,10 @@ const AnswerSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-//   created_at: {
-//     type: Date,
-//     default: Date.now
-//   }
+   created_at: {
+     type: Date,
+     default: Date.now
+   },
 });
 
 module.exports = mongoose.model('Answer', AnswerSchema);

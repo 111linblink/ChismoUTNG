@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AnswersService } from '../../services/answers.service';
+import { QuestionsService } from '../../services/questions.service';
 
 @Component({
   selector: 'app-view-view',
@@ -10,101 +12,116 @@ import { ActivatedRoute } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
 })
 export class View implements OnInit {
-  currentCategory = 'Amor';
+  currentCategory!: string;
   people: any[] = [];
   selectedPerson: any = null;
   modalVisible = false;
+  respuestasFiltradas: any[] = [];
+  questions: { id: number, text: string }[] = [];
+
+
 
   categoryIcons: { [key: string]: string } = {
     'Amor': '❤️',
-    'Terror': '💀',
-    'Verguenza': '🫥',
-    'Gustos Personales': '🌟',
+    'Miedo': '💀',
+    'Vergüenzas': '🫥',
+    'Gustos': '🌟',
     'Random': '❔'
   };
 
-  questions: string[] = [
-    '¿Cuál es el chisme más jugoso que sabes?',
-    '¿Qué secreto te está carcomiendo por dentro?',
-    '¿Cuál es la situación más incómoda que has vivido?',
-    '¿Qué te parece más atractivo de una persona?',
-    '¿Cuál es tu crush secreto?',
-    '¿Qué harías si te enteraras de un secreto sobre tu mejor amigo?',
-    '¿Cuál es la mentira más grande que has dicho?',
-    '¿Qué es lo más vergonzoso que te ha pasado?'
-  ];
 
-  sampleData: any = {
-    'Amor': [
-      {
-        name: 'María González',
-        initials: 'MG',
-        date: '15 de Julio, 2024',
-        preview: 'Tengo un crush súper fuerte con...',
-        answers: {
-          1: 'Tengo un crush súper fuerte con alguien de mi clase de matemáticas...',
-          2: 'Mi mejor amiga me confesó que le gusta el mismo chico que a mí...',
-          3: 'Vi a mi ex besándose con otra persona en la cafetería...',
-          4: 'Hay un chico que siempre me ayuda con las tareas...',
-          5: 'Mi novio me dijo que necesita un "tiempo"...',
-          6: 'Creo que estoy enamorándome de mi mejor amigo...',
-          7: 'Descubrí que mi crush tiene novia...',
-          8: 'Mis padres no aprueban a mi novio...'
-        }
-      },
-      {
-        name: 'Carlos Mendoza',
-        initials: 'CM',
-        date: '14 de Julio, 2024',
-        preview: 'Estoy loco por una chica de mi salón...',
-        answers: {
-          1: 'Estoy loco por una chica de mi salón, pero es súper popular...'
-        }
-      },
-      {
-        name: 'Ana Rodríguez',
-        initials: 'AR',
-        date: '13 de Julio, 2024',
-        preview: 'Mi corazón está hecho pedazos...',
-        answers: {
-          1: 'Mi corazón está hecho pedazos porque descubrí que mi novio me engañó...'
-        }
-      }
-    ],
-    'Terror': [
-      {
-        name: 'Pedro Sánchez',
-        initials: 'PS',
-        date: '12 de Julio, 2024',
-        preview: 'Algo muy extraño pasó en la biblioteca...',
-        answers: {
-          1: 'Escuché pasos cuando no había nadie más, y los libros se movían solos.'
-        }
-      }
-    ]
-  };
-
-  get categoryIcon(): string {
-    return this.categoryIcons[this.currentCategory] || '❔';
-  }
+   get categoryIcon(): string {
+     return this.categoryIcons[this.currentCategory] || '❔';
+   }
 
   get questionPairs() {
-    if (!this.selectedPerson) return [];
-    return Object.entries(this.selectedPerson.answers).map(([index, answer]) => ({
-      index,
-      question: this.questions[+index - 1],
-      answer
-    }));
-  }
+  if (!this.selectedPerson) return [];
 
-  constructor(private route: ActivatedRoute) { }
+  return Object.entries(this.selectedPerson.answers).map(([questionIdStr, answer]) => {
+    const questionId = +questionIdStr;
+    const questionObj = this.questions.find(q => q.id === questionId);
+
+    return {
+      index: questionId,
+      question: questionObj ? questionObj.text : `Pregunta ${questionId}`,
+      answer
+    };
+  });
+}
+
+
+  constructor(private route: ActivatedRoute, private answersService: AnswersService, private questionsService : QuestionsService) { }
 
   ngOnInit(): void {
-    const category = this.route.snapshot.queryParamMap.get('category') || 'Amor';
-    this.currentCategory = category;
-    this.people = this.sampleData[category] || [];
-    this.createBubbles();
+  const categoryParam = this.route.snapshot.queryParamMap.get('category');
+
+   if (!categoryParam) {
+    console.warn('No se proporcionó categoría en la URL.');
+    return;
   }
+
+    this.currentCategory = categoryParam;
+
+  // Mapea el nombre de la categoría al ID que manejas
+  const categories = [
+    { id: 1, name: 'Amor' },
+    { id: 2, name: 'Miedo' },
+    { id: 3, name: 'Vergüenzas' },
+    { id: 4, name: 'Gustos' },
+    { id: 5, name: 'Random' }
+  ];
+
+  const categoryObj = categories.find(c => c.name === this.currentCategory);
+  const categoryId = categoryObj?.id || 1;
+
+  this.loadData(categoryId);
+
+  this.questionsService.getQuestionsByCategory(categoryId).subscribe({
+   next: (preguntas) => {
+    this.questions = preguntas.map((q: any) => ({
+      id: q._id,
+      text: q.text
+    }));
+    console.log('Preguntas procesadas:', this.questions);
+  },
+  error: (err) => {
+    console.error('Error al obtener preguntas:', err);
+  }
+});
+
+  this.createBubbles();
+}
+
+loadData(categoryId: number) {
+  this.answersService.getGroupedAnswersByCategory(categoryId).subscribe({
+    next: (respuestas) => {
+      this.people = respuestas.map((r) => ({
+        user_name: r.user_name,
+        initials: this.getInitials(r.user_name),
+        date: new Date(r.created_at).toLocaleDateString(),
+        preview: r.answers[1] || 'Sin respuesta previa',
+        answers: r.answers
+      }));
+    },
+    error: (err) => console.error(err)
+  });
+
+  this.questionsService.getQuestionsByCategory(categoryId).subscribe({
+    next: (preguntas) => {
+      this.questions = preguntas.map((q: any) => ({
+        id: q._id,
+        text: q.text
+      }));
+    },
+    error: (err) => console.error(err)
+  });
+}
+
+getInitials(user_name: string | undefined | null): string {
+  if (!user_name) return ''; 
+  const parts = user_name.trim().split(' ');
+  return parts.map(p => p[0].toUpperCase()).slice(0, 2).join('');
+}
 
   getAnswerCount(person: any): number {
     return Object.keys(person.answers).length;
@@ -114,6 +131,10 @@ export class View implements OnInit {
     this.selectedPerson = person;
     this.modalVisible = true;
     document.body.style.overflow = 'hidden';
+    console.log('Preguntas:', this.questions);
+    console.log('Respuestas del usuario:', person.answers);
+
+    
   }
 
   closeModal(): void {
