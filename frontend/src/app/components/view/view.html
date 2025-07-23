@@ -25,7 +25,7 @@
         (click)="openModal(person)"
       >
         <div class="person-avatar">{{ person.initials }}</div>
-        <h3 class="person-name">{{ person.name }}</h3>
+        <h3 class="person-name">{{ person.user_name }}</h3>
         <p class="person-preview">{{ person.preview }}</p>
         <span class="gossip-count">{{ getAnswerCount(person) }} respuestas</span>
       </div>
@@ -39,7 +39,7 @@
     <button class="modal-close" (click)="closeModal()">×</button>
     <div class="modal-header" *ngIf="selectedPerson">
       <div class="modal-avatar">{{ selectedPerson.initials }}</div>
-      <h2 class="modal-name">{{ selectedPerson.name }}</h2>
+      <h2 class="modal-name">{{ selectedPerson.user_name }}</h2>
       <p class="modal-date">{{ selectedPerson.date }}</p>
     </div>
     <div class="questions-container">

@@ -4,12 +4,26 @@ exports.createCategory = async (req, res) => {
   try {
     const category = new Category(req.body);
     await category.save();
-    res.json(category);
+    res.send(category);
   } catch (error) {
     console.error(`Error al crear categoría: ${error.message}`);
     res.status(500).send('Error en el servidor');
   }
 };
+
+exports.createAnswer = async (req, res) => {
+  try {
+    console.log("Datos recibidos:", req.body);
+    let answer;
+    answer = new Answer(req.body);
+    await answer.save();
+    console.log(`Answer creado - ID: ${answer._id}`);
+    res.send(answer);
+  } catch (error) {
+    console.error(`Error al crear answer: ${error.message}`);
+    res.status(500).send('Error en el server');
+  }
+}
 
 exports.getCategories = async (req, res) => {
   try {

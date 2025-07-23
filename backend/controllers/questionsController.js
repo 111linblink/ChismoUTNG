@@ -13,6 +13,7 @@ exports.createQuestion = async (req, res) => {
 
 exports.getQuestions = async (req, res) => {
   try {
+    const questions = await Question.find();
     const questions = await Question.find().populate('category', 'name');
     res.json(questions);
   } catch (error) {
@@ -51,5 +52,18 @@ exports.deleteQuestion = async (req, res) => {
   } catch (error) {
     console.error(`Error al eliminar pregunta: ${error.message}`);
     res.status(500).send('Error en el servidor');
+  }
+};
+
+exports.getQuestionsByCategory = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+
+    const questions = await Question.find({ category_id: categoryId });
+
+    res.status(200).json(questions);
+  } catch (err) {
+    console.error('Error al obtener preguntas por categoría:', err);
+    res.status(500).json({ error: 'Error interno del servidor' });
   }
 };
