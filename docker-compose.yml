@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: chismoutng-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - chismonet
+
+  backend:
+    build:
+      context: ./backend
+    container_name: chismografo-backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/tu_basedatos
+    restart: unless-stopped
+    networks:
+      - chismonet
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: chismografo-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - chismonet
+
+volumes:
+  mongo_data:
+
+networks:
+  chismonet:
+    driver: bridge
