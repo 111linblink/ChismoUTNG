@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Form } from './form';
+import { AnswersService } from '../../services/answers.service';
 
 describe('Form', () => {
   let component: Form;
@@ -8,9 +9,9 @@ describe('Form', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Form]
-    })
-    .compileComponents();
+      imports: [HttpClientTestingModule, Form], // 👈 `Form` como standalone
+      providers: [AnswersService] // 👈 Servicio requerido
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Form);
     component = fixture.componentInstance;
