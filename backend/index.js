@@ -10,7 +10,7 @@ conectarDB();
 
 //CORS
 app.use(cors({
-  origin: 'http://localhost:4200',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -24,6 +24,7 @@ app.use('/api/answers', require('./routes/answers'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/questions', require('./routes/questions'));
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
     console.log('El servidor esta corriendo ')
 })

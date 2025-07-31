@@ -20,7 +20,7 @@ FROM nginx:stable-alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copia archivos compilados desde el build de Angular
-COPY --from=build /app/src/app/dist/frontend/browser /usr/share/nginx/html
+COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
 
 # Copia archivo de configuración de Nginx (opcional, si lo tienes)
 COPY nginx.conf /etc/nginx/nginx.conf   

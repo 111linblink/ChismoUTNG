@@ -1,26 +1,14 @@
 version: "3.9"
 
 services:
-  mongo:
-    image: mongo:6.0
-    container_name: chismoutng-mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-    networks:
-      - chismonet
-
   backend:
     build:
       context: ./backend
     container_name: chismografo-backend
     ports:
       - "3000:3000"
-    depends_on:
-      - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017/tu_basedatos
+      - MONGO_URI=mongodb+srv://roxanaort10:1234@cluster0.ejddsci.mongodb.net/chismoUTNG?retryWrites=true&w=majority&appName=Cluster0
     restart: unless-stopped
     networks:
       - chismonet

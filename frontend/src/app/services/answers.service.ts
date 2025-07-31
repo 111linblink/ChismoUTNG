@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AnswersService {
-  private apiUrl = 'http://localhost:3000/api/answers';
+  private apiUrl = 'https://chismografo-backend-152844519304.us-central1.run.app/api';
 
   constructor(private http: HttpClient) { }
 
   getGroupedAnswersByCategory(categoryId: number) {
-  return this.http.get<any[]>(`${this.apiUrl}/grouped-by-category?category=${categoryId}`);
+  return this.http.get<any[]>(`${this.apiUrl}/answers/grouped-by-category?category=${categoryId}`);
 }
 
 }
